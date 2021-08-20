@@ -1,0 +1,56 @@
+version: '2.0'
+services:
+  php74-fpm:
+    image: hebiao/php74-fpm
+    container_name: php74-fpm
+    restart: always
+    ports:
+      - "9900:9000"
+    volumes:
+      - C:\dev\test:/var/www/app #work dir
+      - C:\docker-develop\data\php-fpm:/tmp/log
+      - C:\docker-develop\tmp\php7-myfpm:/var/run/php7-fpm
+    networks:
+      - back-net
+  openresty:
+    image: hebiao/openresty
+    container_name: openresty
+    restart: always
+    ports:
+      - "9080:80"
+    volumes:
+      - C:\docker-develop\data\openresty:/usr/local/openresty/nginx/logs
+      - C:\docker-develop\tmp\php5-myfpm:/var/run/php5-fpm
+      - C:\docker-develop\tmp\php7-myfpm:/var/run/php7-fpm
+      - C:\dev\test:/var/www/app #Code
+      - C:\docker-develop\docker-conf\openresty:/usr/local/openresty/nginx/conf/conf.d
+    networks:
+      - back-net
+  mysql:
+    image: mysql57
+    container_name: mysql57
+    restart: always
+    environment:
+      - "MYSQL_ROOT_PASSWORD=123456"
+    ports:
+      - "6033:3306"
+    volumes:
+      - C:\docker-develop\data\mysql:/var/lib/mysql
+    networks:
+      - back-net
+  redis:
+    image: redis
+    container_name: redis
+    restart: always
+    ports:
+      - "9736:6379"
+    volumes:
+      - C:\docker-develop\data\redis:/data
+    networks:
+      - back-net
+  
+
+
+networks:
+  back-net:
+    external: true

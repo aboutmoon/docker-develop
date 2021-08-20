@@ -26,9 +26,9 @@ while ($line = fgets($pointer)) {
 $command = 'echo ' . escapeshellarg($mail) . ' | ' . $sendmail_bin . ' -t -i';
 
 if (isset($_SERVER['argc'])) {
-	for ($i = 1; $i < $_SERVER['argc']; $i++) {
-	    $command .= escapeshellarg($_SERVER['argv'][$i]) . ' ';
-	}
+    for ($i = 1; $i < $_SERVER['argc']; $i++) {
+        $command .= escapeshellarg($_SERVER['argv'][$i]) . ' ';
+    }
 }
 
 // Write the log
